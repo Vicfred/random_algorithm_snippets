@@ -1,24 +1,28 @@
-combinationsRep :: Int -> [a] -> [[a]]
-combinationsRep 0 _      = [[]]
-combinationsRep _ []     = []
-combinationsRep k (x:xs)
-  | k < 0     = []
-  | otherwise = map (x :) (combinationsRep (k - 1) (x : xs)) ++ combinationsRep k xs
+import System.Environment
+import Data.List
+
+subsets :: [a] -> [[a]]
+subsets [] = [[]]
+subsets (x:xs) = let r = subsets xs in r ++ map (x:) r
+
+fmt :: [String] -> String
+fmt s = "{" ++ intercalate "," s ++ "}"
 
 main :: IO ()
 main = do
-  putStrLn "k=2 from [1..3] with repetition:"
-  print (combinationsRep 2 [1..3])
-
-  putStrLn "\nk=3 from \"ab\":"
-  print (combinationsRep 3 "ab")
-
-  putStrLn "\nk=4 from [10,20,30]:"
-  mapM_ print (combinationsRep 4 [10,20,30])
-
-  putStrLn "\nk=0 from [1,2]:"
-  print (combinationsRep 0 [1,2])
-
-  putStrLn "\nk=5 from []:"
-  print (combinationsRep 5 ([] :: [Int]))
+  let a = ["a","b","c"]
+  let b = ["1","2"]
+  let c = ["x","y","z","w"]
+  let d = ["ka","zu","mi"]
+  putStrLn "Example 1:"
+  mapM_ (putStrLn . fmt) (subsets a)
+  putStrLn ""
+  putStrLn "Example 2:"
+  mapM_ (putStrLn . fmt) (subsets b)
+  putStrLn ""
+  putStrLn "Example 3:"
+  mapM_ (putStrLn . fmt) (subsets c)
+  putStrLn ""
+  putStrLn "Example 4:"
+  mapM_ (putStrLn . fmt) (subsets d)
 
