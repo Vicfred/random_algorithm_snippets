@@ -1,28 +1,24 @@
-import System.Environment
-import Data.List
-
-subsets :: [a] -> [[a]]
-subsets [] = [[]]
-subsets (x:xs) = let r = subsets xs in r ++ map (x:) r
-
-fmt :: [String] -> String
-fmt s = "{" ++ intercalate "," s ++ "}"
+combinations :: Int -> [a] -> [[a]]
+combinations 0 _ = [[]]
+combinations _ [] = []
+combinations k (x:xs)
+  | k < 0     = []
+  | otherwise = map (x :) (combinations (k - 1) xs) ++ combinations k xs
 
 main :: IO ()
 main = do
-  let a = ["a","b","c"]
-  let b = ["1","2"]
-  let c = ["x","y","z","w"]
-  let d = ["ka","zu","mi"]
-  putStrLn "Example 1:"
-  mapM_ (putStrLn . fmt) (subsets a)
-  putStrLn ""
-  putStrLn "Example 2:"
-  mapM_ (putStrLn . fmt) (subsets b)
-  putStrLn ""
-  putStrLn "Example 3:"
-  mapM_ (putStrLn . fmt) (subsets c)
-  putStrLn ""
-  putStrLn "Example 4:"
-  mapM_ (putStrLn . fmt) (subsets d)
+  putStrLn "k=2 from [1..5]:"
+  print (combinations 2 [1..5])
+
+  putStrLn "\nk=3 from \"abcd\":"
+  print (combinations 3 "abcd")
+
+  putStrLn "\nk=0 from [10,20]:"
+  print (combinations 0 [10,20])
+
+  putStrLn "\nk=4 from [1..3] (too large -> []):"
+  print (combinations 4 [1..3])
+
+  putStrLn "\nEach 3-combination from [1..5]:"
+  mapM_ print (combinations 3 [1..5])
 
