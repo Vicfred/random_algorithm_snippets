@@ -99,7 +99,7 @@ animal_index=$((RANDOM % ${#animals[@]}))
 # Get the random elements
 adj="${adjectives[$adj_index]}"
 animal="${animals[$animal_index]}"
-# Directory with python files
+# Directory with source code files
 SOURCE_DIR="./source_files"
 # Check if directory exists
 if [ ! -d "$SOURCE_DIR" ]; then
