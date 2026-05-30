@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # commit.sh
+# make a directory source_files and put the source code there
 # 1) Choose your timezone for everything in this script
 export TZ='America/Mexico_City'
 # 2) Grab “now” in ISO-8601 w/ offset (e.g. 2025-04-26T15:30:45+0200)
