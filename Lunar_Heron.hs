@@ -1,24 +1,30 @@
-combinations :: Int -> [a] -> [[a]]
-combinations 0 _ = [[]]
-combinations _ [] = []
-combinations k (x:xs)
-  | k < 0     = []
-  | otherwise = map (x :) (combinations (k - 1) xs) ++ combinations k xs
+module Main where
+
+type Peg = String
+type Move = (Peg, Peg)
+
+hanoi :: Int -> Peg -> Peg -> Peg -> [Move]
+hanoi 0 _ _ _ = []
+hanoi n from aux to =
+  hanoi (n - 1) from to aux
+  ++ [(from, to)]
+  ++ hanoi (n - 1) aux from to
+
+showMove :: Int -> Move -> String
+showMove i (from, to) =
+  "Step " ++ show i ++ ": move disk from " ++ from ++ " to " ++ to
 
 main :: IO ()
 main = do
-  putStrLn "k=2 from [1..5]:"
-  print (combinations 2 [1..5])
+  putStrLn "Number of disks:"
+  input <- getLine
 
-  putStrLn "\nk=3 from \"abcd\":"
-  print (combinations 3 "abcd")
+  let n = read input :: Int
+      moves = hanoi n "A" "B" "C"
 
-  putStrLn "\nk=0 from [10,20]:"
-  print (combinations 0 [10,20])
+  putStrLn ""
+  putStrLn $ "Total moves: " ++ show (length moves)
+  putStrLn ""
 
-  putStrLn "\nk=4 from [1..3] (too large -> []):"
-  print (combinations 4 [1..3])
-
-  putStrLn "\nEach 3-combination from [1..5]:"
-  mapM_ print (combinations 3 [1..5])
-
+  mapM_ putStrLn $
+    zipWith showMove [1..] moves
